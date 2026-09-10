@@ -39,7 +39,9 @@ class _HomeViewState extends State<HomeView> {
       SliverToBoxAdapter(child: SizedBox(height: 10)), //放置间距组件
       SliverToBoxAdapter(child: HmCategory(categoryList: _categoryList)), //分类组件
       SliverToBoxAdapter(child: SizedBox(height: 10)), //放置间距组件
-      SliverToBoxAdapter(child: HmSuggestion()), //推荐组件
+      SliverToBoxAdapter(
+        child: HmSuggestion(specialRecommendResult: _specialRecommendResult),
+      ), //推荐组件
       SliverToBoxAdapter(child: SizedBox(height: 10)), //放置间距组件
       SliverToBoxAdapter(
         child: Padding(
@@ -59,12 +61,26 @@ class _HomeViewState extends State<HomeView> {
     ];
   }
 
+  //特惠推荐
+  SpecialRecommendResult _specialRecommendResult = SpecialRecommendResult(
+    id: '',
+    title: '',
+    subTypes: [],
+  );
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _getBannerList();
     _getCategoryList();
+    _getProductList();
+  }
+
+  //获取特惠推荐列表
+  void _getProductList() async {
+    _specialRecommendResult = await getProductListAPI();
+    setState(() {});
   }
 
   //获取轮播图列表

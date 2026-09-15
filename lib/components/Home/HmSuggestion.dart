@@ -62,40 +62,51 @@ class _HmSuggestionState extends State<HmSuggestion> {
   List<Widget> _getChildrenList() {
     List<GoodsItem> list = _getDisplayItems(); //获取前三条商品
     return List.generate(list.length, (int index) {
-      return Column(
-        children: [
-          //ClipRRect 圆角矩形 裁剪图片包裹子元素
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: Image.network(
-              errorBuilder: (context, error, stackTrace) {
-                //图片加载失败时的处理
-                return Image.asset(
-                  "lib/assets/home_cmd_inner.png",
-                  width: 100,
+      //用Expanded包裹 让三个商品平分剩余宽度 避免固定宽度导致溢出
+      return Expanded(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 5),
+          child: Column(
+            children: [
+              //ClipRRect 圆角矩形 裁剪图片包裹子元素
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.network(
+                  errorBuilder: (context, error, stackTrace) {
+                    //图片加载失败时的处理
+                    return Image.asset(
+                      "lib/assets/home_cmd_inner.png",
+                      width: double.infinity,
+                      height: 140,
+                      fit: BoxFit.cover,
+                    );
+                  },
+                  list[index].picture,
+                  //图片宽度填满Expanded分配的空间 不再写死100
+                  width: double.infinity,
                   height: 140,
                   fit: BoxFit.cover,
-                );
-              },
-              list[index].picture,
-              width: 100,
-              height: 140,
-              fit: BoxFit.cover,
-            ),
+                ),
+              ),
+              SizedBox(height: 10),
+              //FittedBox scaleDown 价格过长时自动缩小 防止溢出
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 199, 85, 76),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    "￥${list[index].price} ",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            ],
           ),
-          SizedBox(height: 10),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-            decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 199, 85, 76),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Text(
-              "￥${list[index].price} ",
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-        ],
+        ),
       );
     });
   }
@@ -124,10 +135,8 @@ class _HmSuggestionState extends State<HmSuggestion> {
               children: [
                 _buildLeft(),
                 Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: _getChildrenList(),
-                  ),
+                  //子项已用Expanded平分宽度 无需spaceEvenly
+                  child: Row(children: _getChildrenList()),
                 ),
               ],
             ),

@@ -3,7 +3,7 @@ class BannerItem {
   String imgUrl;
   BannerItem({required this.id, required this.imgUrl});
   //扩展一个工厂函数 一般用factory来声明 一般用来创建实例对象
-  factory BannerItem.fromJSON(Map<String, dynamic> json) {
+  factory BannerItem.formJSON(Map<String, dynamic> json) {
     //必须返回一个BannerItem对象
     return BannerItem(
       //如果id为空 则默认值为空字符串
@@ -317,7 +317,7 @@ class CategoryItem {
     this.children,
   });
 
-  factory CategoryItem.fromJson(Map<String, dynamic> json) {
+  factory CategoryItem.formJSON(Map<String, dynamic> json) {
     return CategoryItem(
       id: json["id"] ?? "",
       name: json["name"] ?? "",
@@ -326,7 +326,7 @@ class CategoryItem {
           ? null
           : (json["children"] as List)
                 .map(
-                  (item) => CategoryItem.fromJson(item as Map<String, dynamic>),
+                  (item) => CategoryItem.formJSON(item as Map<String, dynamic>),
                 )
                 .toList(),
     );
@@ -346,14 +346,14 @@ class SpecialRecommendResult {
     required this.subTypes,
   });
 
-  factory SpecialRecommendResult.fromJson(Map<String, dynamic> json) {
+  factory SpecialRecommendResult.formJSON(Map<String, dynamic> json) {
     return SpecialRecommendResult(
       id: json["id"] ?? "",
       title: json["title"] ?? "",
       subTypes: json["subTypes"] == null
           ? []
           : (json["subTypes"] as List)
-                .map((item) => SubType.fromJson(item as Map<String, dynamic>))
+                .map((item) => SubType.formJSON(item as Map<String, dynamic>))
                 .toList(),
     );
   }
@@ -367,11 +367,11 @@ class SubType {
 
   SubType({required this.id, required this.title, required this.goodsItems});
 
-  factory SubType.fromJson(Map<String, dynamic> json) {
+  factory SubType.formJSON(Map<String, dynamic> json) {
     return SubType(
       id: json["id"] ?? "",
       title: json["title"] ?? "",
-      goodsItems: GoodsItems.fromJson(
+      goodsItems: GoodsItems.formJSON(
         (json["goodsItems"] ?? {}) as Map<String, dynamic>,
       ),
     );
@@ -394,7 +394,7 @@ class GoodsItems {
     required this.items,
   });
 
-  factory GoodsItems.fromJson(Map<String, dynamic> json) {
+  factory GoodsItems.formJSON(Map<String, dynamic> json) {
     return GoodsItems(
       counts: json["counts"] ?? 0,
       pageSize: json["pageSize"] ?? 0,
@@ -403,7 +403,7 @@ class GoodsItems {
       items: json["items"] == null
           ? []
           : (json["items"] as List)
-                .map((item) => GoodsItem.fromJson(item as Map<String, dynamic>))
+                .map((item) => GoodsItem.formJSON(item as Map<String, dynamic>))
                 .toList(),
     );
   }
@@ -427,7 +427,7 @@ class GoodsItem {
     required this.orderNum,
   });
 
-  factory GoodsItem.fromJson(Map<String, dynamic> json) {
+  factory GoodsItem.formJSON(Map<String, dynamic> json) {
     return GoodsItem(
       id: json["id"] ?? "",
       name: json["name"] ?? "",
@@ -460,6 +460,39 @@ class GoodDetailItem extends GoodsItem {
       picture: json["picture"]?.toString() ?? "",
       orderNum: int.tryParse(json["orderNum"]?.toString() ?? "0") ?? 0,
       payCount: int.tryParse(json["payCount"]?.toString() ?? "0") ?? 0,
+    );
+  }
+}
+
+class GoodsDetailsItems {
+  int counts;
+  int pageSize;
+  int pages;
+  int page;
+  List<GoodDetailItem> items;
+
+  GoodsDetailsItems({
+    required this.counts,
+    required this.pageSize,
+    required this.pages,
+    required this.page,
+    required this.items,
+  });
+
+  factory GoodsDetailsItems.formJSON(Map<String, dynamic> json) {
+    return GoodsDetailsItems(
+      counts: json["counts"] ?? 0,
+      pageSize: json["pageSize"] ?? 0,
+      pages: json["pages"] ?? 0,
+      page: json["page"] ?? 0,
+      items: json["items"] == null
+          ? []
+          : (json["items"] as List)
+                .map(
+                  (item) =>
+                      GoodDetailItem.formJSON(item as Map<String, dynamic>),
+                )
+                .toList(),
     );
   }
 }

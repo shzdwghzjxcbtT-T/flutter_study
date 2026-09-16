@@ -62,16 +62,6 @@ flutter:
   # An assets section can be used to add assets to your application.
   assets:
     - lib/assets/
-
-  # 本地注册Roboto 避免Web端从fonts.gstatic.com下载字体(国内被墙导致白屏)
-  fonts:
-    - family: Roboto
-      fonts:
-        - asset: lib/assets/fonts/roboto-regular.ttf
-        - asset: lib/assets/fonts/roboto-medium.ttf
-          weight: 500
-        - asset: lib/assets/fonts/roboto-bold.ttf
-          weight: 700
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

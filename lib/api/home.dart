@@ -8,7 +8,7 @@ Future<List<BannerItem>> getBannerListAPI() async {
   return ((await dioRequest.get(HttpConstants.BANNER_LIST)) as List).map((
     item,
   ) {
-    return BannerItem.fromJSON(item as Map<String, dynamic>);
+    return BannerItem.formJSON(item as Map<String, dynamic>);
   }).toList();
 }
 
@@ -18,14 +18,14 @@ Future<List<CategoryItem>> getCategoryListAPI() async {
   return ((await dioRequest.get(HttpConstants.CATEGORY_LIST)) as List).map((
     item,
   ) {
-    return CategoryItem.fromJson(item as Map<String, dynamic>);
+    return CategoryItem.formJSON(item as Map<String, dynamic>);
   }).toList();
 }
 
 //特惠推荐
 Future<SpecialRecommendResult> getProductListAPI() async {
   //返回请求
-  return SpecialRecommendResult.fromJson(
+  return SpecialRecommendResult.formJSON(
     await dioRequest.get(HttpConstants.PRODUCT_LIST),
   );
 }
@@ -33,7 +33,7 @@ Future<SpecialRecommendResult> getProductListAPI() async {
 // 热榜推荐
 Future<SpecialRecommendResult> getInVogueListAPI() async {
   // 返回请求
-  return SpecialRecommendResult.fromJson(
+  return SpecialRecommendResult.formJSON(
     await dioRequest.get(HttpConstants.IN_VOGUE_LIST),
   );
 }
@@ -41,7 +41,7 @@ Future<SpecialRecommendResult> getInVogueListAPI() async {
 // 一站式推荐
 Future<SpecialRecommendResult> getOneStopListAPI() async {
   // 返回请求
-  return SpecialRecommendResult.fromJson(
+  return SpecialRecommendResult.formJSON(
     await dioRequest.get(HttpConstants.ONE_STOP_LIST),
   );
 }

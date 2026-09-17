@@ -8,16 +8,21 @@ class Toastutils {
       return;
     }
     Toastutils.showLoading = true;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        width: 180,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadiusGeometry.circular(40),
-        ),
-        behavior: SnackBarBehavior.floating,
-        duration: Duration(seconds: 5),
-        content: Text(msg ?? '加载成功', textAlign: TextAlign.center),
-      ),
-    );
+    ScaffoldMessenger.of(context)
+        .showSnackBar(
+          SnackBar(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadiusGeometry.circular(40),
+            ),
+            behavior: SnackBarBehavior.fixed, // 改为 fixed，避免 floating 在某些布局下超出屏幕
+            duration: Duration(seconds: 2),
+            content: Text(msg ?? '加载成功', textAlign: TextAlign.center),
+          ),
+        )
+        .closed
+        .then((_) {
+          // SnackBar 关闭后重置标志，允许下次再弹出提示
+          Toastutils.showLoading = false;
+        });
   }
 }
